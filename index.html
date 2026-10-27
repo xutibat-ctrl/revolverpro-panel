@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revólver Pro</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #f5e6c2;
+      background: #080b12;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* Fondo original a pantalla completa */
+    .fondo {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        url("../gpt/diseno/Fons%20futurista%20de%20Rev%C3%B3lver%20Pro.png");
+      background-position: right top;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    /* Capa ligera para que se lean los controles */
+    .capa {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(3, 6, 12, 0.18),
+        rgba(3, 6, 12, 0.48)
+      );
+    }
+
+    .interfaz {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      padding-top: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #e7c477;
+      font-size: clamp(25px, 5vw, 42px);
+      letter-spacing: 3px;
+      text-shadow: 0 2px 12px #000;
+    }
+
+    .subtitulo {
+      margin-top: 8px;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px #000;
+    }
+
+    .controles {
+      width: min(100%, 440px);
+      margin-top: auto;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .boton {
+      min-height: 58px;
+      border: 1px solid #c9a456;
+      border-radius: 10px;
+      background: rgba(8, 12, 20, 0.88);
+      color: #f5e6c2;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 12px 8px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .boton:hover,
+    .boton:focus-visible {
+      background: rgba(120, 88, 35, 0.94);
+      outline: 2px solid #f0d38c;
+      outline-offset: 2px;
+    }
+
+    .panel {
+      display: none;
+      width: min(100%, 440px);
+      margin: 0 auto 20px;
+      padding: 18px;
+      border: 1px solid #c9a456;
+      border-radius: 12px;
+      background: rgba(8, 12, 20, 0.94);
+      box-shadow: 0 4px 22px #0008;
+      text-align: center;
+    }
+
+    .panel.visible {
+      display: block;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      color: #e7c477;
+    }
+
+    @media (max-height: 560px) {
+      .interfaz {
+        padding-top: 12px;
+      }
+
+      .controles {
+        margin-top: 30px;
+      }
+
+      .boton {
+        min-height: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="fondo" aria-hidden="true"></div>
+  <div class="capa" aria-hidden="true"></div>
+
+  <main class="interfaz">
+    <header>
+      <h1>REVÓLVER PRO</h1>
+      <div class="subtitulo">PANEL DE CONTROL · MODO DEMO</div>
+    </header>
+
+    <section id="panel" class="panel" aria-live="polite">
+      <h2 id="titulo-panel">Panel</h2>
+      <p id="contenido-panel"></p>
+    </section>
+
+    <nav class="controles" aria-label="Controles principales">
+      <button class="boton" data-panel="capitales">💰 Capitales</button>
+      <button class="boton" data-panel="wallet">📊 Wallet demo</button>
+      <button class="boton" data-panel="historial">📜 Historial</button>
+      <button class="boton" data-panel="seguridad">🛡️ Seguridad</button>
+    </nav>
+  </main>
+
+  <script>
+    const contenidos = {
+      capitales: {
+        titulo: "Capitales",
+        texto: "Panel de capitales en modo demo. La conexión de datos está pendiente."
+      },
+      wallet: {
+        titulo: "Wallet demo",
+        texto: "Cartera de simulación. No se ejecutan operaciones reales."
+      },
+      historial: {
+        titulo: "Historial",
+        texto: "Aquí se mostrarán los eventos cuando conectemos el historial del bot."
+      },
+      seguridad: {
+        titulo: "Seguridad",
+        texto: "Modo demo activo. Las órdenes reales deben permanecer desactivadas."
+      }
+    };
+
+    const panel = document.getElementById("panel");
+    const titulo = document.getElementById("titulo-panel");
+    const contenido = document.getElementById("contenido-panel");
+
+    document.querySelectorAll("[data-panel]").forEach((boton) => {
+      boton.addEventListener("click", () => {
+        const datos = contenidos[boton.dataset.panel];
+        titulo.textContent = datos.titulo;
+        contenido.textContent = datos.texto;
+        panel.classList.add("visible");
+      });
+    });
+  </script>
+</body>
+</html>
